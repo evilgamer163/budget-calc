@@ -13,7 +13,7 @@ let money = 35000,
     amount2,
     budgetMonth;
 
-money = prompt('Ваш месячный доход?');
+money = +prompt('Ваш месячный доход?');
 
 addExpensens = prompt('Перечислите возможные расходы за рассчитываемый период через запятую:');
 
@@ -51,6 +51,8 @@ if(budgetDay > 1200) {
     console.log('У вас высокий уровень дохода!');
 } else if(budgetDay >= 600 && budgetDay <= 1200) {
     console.log('У вас средний уровень дохода');
+} else if(budgetDay < 600 && budgetDay > 0) {
+    console.log('К сожалению у вас уровень дохода ниже среднего');
 } else if( budgetDay < 0) {
     console.log('Что то пошло не так');
 } else {
