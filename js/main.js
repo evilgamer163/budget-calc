@@ -20,9 +20,9 @@ const isNumber = (num) => {
 
 const start = () => {
     money = prompt('Ваш месячный доход?');
-    while(!isNumber(money)) {
+    do {
         money = prompt('Ваш месячный доход?');
-    }
+    } while(!isNumber(money));
 };
 
 const showTypeOf = (data) => {
