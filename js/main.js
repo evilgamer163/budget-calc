@@ -19,7 +19,6 @@ const isNumber = (num) => {
 };
 
 const start = () => {
-    money = prompt('Ваш месячный доход?');
     do {
         money = prompt('Ваш месячный доход?');
     } while(!isNumber(money));
@@ -30,12 +29,15 @@ const showTypeOf = (data) => {
 };
 
 const getExpensesMonth = () => {
-    let sum = 0;
+    let amount, sum = 0;
     for (let i = 0; i < 2; i++) {
         expenses[i] = prompt('Введите обязательную статью расходов:');
-        sum += +prompt('Во сколько это обойдется?');
+        do {
+            amount = +prompt('Во сколько это обойдется?');
+        } while(!isNumber(amount));
+        sum += amount;
     }
-    return sum;
+    return sum;    
 };
 
 const getAccumulatedMonth = () => {
@@ -89,3 +91,9 @@ console.log(addExpensens.toLowerCase().split(', '));
 console.log(period);
 console.log('Доход в день = ' + budgetDay.toFixed(2) + '₽');
 console.log(getStatusIncome());
+
+
+
+
+
+console.log(isNaN('dgsdfgdfg'));
