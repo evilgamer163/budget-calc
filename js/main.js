@@ -1,33 +1,19 @@
 'use strict';
 
 //<--- Переменные --->
-let money = 35000,
+let money = +prompt('Ваш месячный доход?'),
     income = 'Сборка ПК',
-    addExpensens = 'КРЕДИТ, Интернет, Подписки, Кошка',
-    deposit = false,
+    addExpensens = prompt('Перечислите возможные расходы за рассчитываемый период через запятую:'),
+    deposit = confirm('Есть ли у вас депозит в банке?'),
     mission = 160000,
     period = 12,
     budgetDay,
-    expenses1,
-    expenses2,
-    amount1,
-    amount2,
+    expenses1 = prompt('Введите обязательную статью расходов:'),
+    amount1 = +prompt('Во сколько это обойдется?'),
+    expenses2 = prompt('Введите обязательную статью расходов(2):'),
+    amount2 = +prompt('Во сколько это обойдется?'),
     expensesMonth,
     accumulatedMonth;
-
-
-//<--- Исходные параметры --->
-money = +prompt('Ваш месячный доход?');
-
-addExpensens = prompt('Перечислите возможные расходы за рассчитываемый период через запятую:');
-
-deposit = confirm('Есть ли у вас депозит в банке?');
-
-expenses1 = prompt('Введите обязательную статью расходов:');
-amount1 = +prompt('Во сколько это обойдется?');
-
-expenses2 = prompt('Введите обязательную статью расходов(2):');
-amount2 = +prompt('Во сколько это обойдется?');
 
 
 //<--- Объявления функций --->
@@ -64,13 +50,9 @@ const getStatusIncome = () => {
 
 // <--- Вызов функций --->
 expensesMonth = getExpensesMonth();
-
 accumulatedMonth = getAccumulatedMonth();
-
 period = getTargetMonth();
-
 budgetDay = Math.floor(accumulatedMonth/30);
-
 getStatusIncome();
 
 showTypeOf(money);
@@ -80,11 +62,7 @@ showTypeOf(deposit);
 
 //<--- Выводы в консоль --->
 console.log(`Расходы за месяц составляют: ${expensesMonth}`);
-
 console.log(addExpensens.toLowerCase().split(', '));
-
 console.log(`Цель будет достигнута за ${Math.ceil(period)} месяцев(а)`);
-
 console.log('Доход в день = ' + budgetDay.toFixed(2) + '₽');
-
 console.log(getStatusIncome());
