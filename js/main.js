@@ -42,7 +42,6 @@ const startGame = () => {
                     gameOver();
                 }
             }
-            
         } else if(enterNum > randomNum) {
             count--;
             if(count > 0) {
@@ -50,10 +49,13 @@ const startGame = () => {
                 game();
             } else {
                 reload = confirm('Попытки закончились, хотите сыграть еще?');
-                reload ? game() : gameOver();
-
+                if(reload) {
+                    count = 10;
+                    game();
+                } else {
+                    gameOver();
+                }
             }
-            
         } else if(!isNumber(enterNum)) {
             alert('Это не число! Попробуй еще раз:');
             game();
