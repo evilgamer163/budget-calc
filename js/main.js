@@ -12,11 +12,9 @@ const getRandomNum = (min, max) => {
 
 const startGame = () => {
     let enterNum;
-    let randomNum;
+    let randomNum = getRandomNum(1, 100);
 
     const game = () => {
-        randomNum = getRandomNum(1, 100);
-        console.log(randomNum);
         enterNum = prompt('Угадай число от 1 до 100:');
 
         if(enterNum === null) {
@@ -38,7 +36,6 @@ const startGame = () => {
         } 
     };
     game();
-    console.dir(game);
 };
 
 startButton.addEventListener('click', () => {
