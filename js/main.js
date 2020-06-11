@@ -17,14 +17,11 @@ const gameOver = () => {
 
 const startGame = () => {
     let enterNum;
-    let randomNum;
+    let randomNum = getRandomNum(1, 100);
     let count = 10;
     let reload;
 
     const game = () => {
-        console.log('COUNT: ' + count);
-        randomNum = getRandomNum(1, 100);
-        console.log(randomNum);
         enterNum = prompt('Угадай число от 1 до 100:');
 
         if(enterNum === null) {
@@ -33,12 +30,30 @@ const startGame = () => {
 
         if(enterNum < randomNum) {
             count--;
-            alert(`Загаданное число больше, осталось попыток: ${count}`);
-            game();
+            if(count > 0) {
+                alert(`Загаданное число больше, осталось попыток: ${count}`);
+                game();
+            } else {
+                reload = confirm('Попытки закончились, хотите сыграть еще?');
+                if(reload) {
+                    count = 10;
+                    game();
+                } else {
+                    gameOver();
+                }
+            }
+            
         } else if(enterNum > randomNum) {
             count--;
-            alert(`Загаданное число меньше, осталось попыток: ${count}`);
-            game();
+            if(count > 0) {
+                alert(`Загаданное число меньше, осталось попыток: ${count}`);
+                game();
+            } else {
+                reload = confirm('Попытки закончились, хотите сыграть еще?');
+                reload ? game() : gameOver();
+
+            }
+            
         } else if(!isNumber(enterNum)) {
             alert('Это не число! Попробуй еще раз:');
             game();
