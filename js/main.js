@@ -91,9 +91,3 @@ console.log(addExpensens.toLowerCase().split(', '));
 console.log(period);
 console.log('Доход в день = ' + budgetDay.toFixed(2) + '₽');
 console.log(getStatusIncome());
-
-
-
-
-
-console.log(isNaN('dgsdfgdfg'));
