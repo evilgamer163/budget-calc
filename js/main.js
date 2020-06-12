@@ -21,6 +21,8 @@ const startGame = () => {
     let count = 10;
     let reload;
 
+    console.log(randomNum);
+
     const game = () => {
         enterNum = prompt('Угадай число от 1 до 100:');
 
@@ -30,10 +32,10 @@ const startGame = () => {
 
         if(enterNum < randomNum) {
             count--;
-            if(count > 0) {
+            if(count > 0 && enterNum !== null) {
                 alert(`Загаданное число больше, осталось попыток: ${count}`);
                 game();
-            } else {
+            } else if(count === 0){
                 reload = confirm('Попытки закончились, хотите сыграть еще?');
                 if(reload) {
                     count = 10;
@@ -44,10 +46,10 @@ const startGame = () => {
             }
         } else if(enterNum > randomNum) {
             count--;
-            if(count > 0) {
+            if(count > 0 && enterNum !== null) {
                 alert(`Загаданное число меньше, осталось попыток: ${count}`);
                 game();
-            } else {
+            } else if(count === 0) {
                 reload = confirm('Попытки закончились, хотите сыграть еще?');
                 if(reload) {
                     count = 10;
@@ -69,7 +71,7 @@ const startGame = () => {
         }
     };
     game();
-    console.dir(game);
+
 };
 
 startButton.addEventListener('click', () => {
