@@ -59,9 +59,8 @@ let appData = {
     },
 
     getTargetMonth: () => {
-        let month = appData.mission / appData.budgetMonth;
-        if (month >= 0) {
-            appData.period = `Цель будет достигнута за ${Math.ceil(month)} месяцев(а)`;
+        if ((appData.mission / appData.budgetMonth) >= 0) {
+            appData.period = `Цель будет достигнута за ${Math.ceil(appData.mission / appData.budgetMonth)} месяцев(а)`;
         } else {
             appData.period = 'Цель не будет достигнута!';
         }
@@ -93,3 +92,8 @@ appData.getStatusIncome();
 console.log(`Расходы за месяц составляют: ${appData.expensesMonth}`);
 console.log(appData.period);
 console.log(appData.statusIncome);
+
+console.log('Наша программа включает в себя данные:');
+for(let key in appData) {
+    console.log(`Свойство: ${key}, Значение: ${appData[key]}`);
+}
