@@ -41,10 +41,10 @@ let appData = {
             let itemIncome, cashIncome;
             do {
                 itemIncome = prompt('Введите доп. источник дохода:');
-            } while(!regExpText.test(itemIncome));
+            } while(isNumber(itemIncome));
             do {
                 cashIncome = prompt(`Сколько вы зарабатываете в месяц на ${itemIncome}?`);
-            } while(!regExpNum.test(cashIncome));
+            } while(!isNumber(cashIncome));
             appData.income[itemIncome] = cashIncome;
         }
 
@@ -65,7 +65,7 @@ let appData = {
                 requiredExpenses = [];
             do {
                 requiredExpenses[i] = prompt('Введите обязательную статью расходов:');
-            } while(!regExpText.test(requiredExpenses[i]));
+            } while(isNumber(requiredExpenses[i]));
             
             do {
                 amount = +prompt(`Во сколько обойдется ${requiredExpenses[i]}:`);
@@ -111,10 +111,10 @@ let appData = {
         if(appData.deposit) {
             do {
                 appData.percentDeposit = prompt('Введите годовой процент:');
-            } while(!regExpNum.test(appData.percentDeposit));
+            } while(!isNumber(appData.percentDeposit));
             do {
                 appData.moneyDeposit = prompt('Какая сумма заложена:');
-            } while(!regExpNum.test(appData.moneyDeposit));
+            } while(!isNumber(appData.moneyDeposit));
         }
     }
 };
