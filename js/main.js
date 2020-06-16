@@ -1,6 +1,9 @@
 'use strict';
 
 //<--- Переменные --->
+const regExpText = /['а-яА-Я']+$/,
+    regExpNum = /['0-9']+$/;
+
 let money;
 
 //<--- Объявления функций --->
@@ -30,16 +33,40 @@ let appData = {
     budgetMonth: 0,
     expensesMonth: 0,
     statusIncome: '',
+    percentDeposit: 0,
+    moneyDeposit: 0,
 
     asking: () => {
+        if(confirm('Есть ли у вас доп. источники дохода?')) {
+            let itemIncome, cashIncome;
+            do {
+                itemIncome = prompt('Введите доп. источник дохода:');
+            } while(!regExpText.test(itemIncome));
+            do {
+                cashIncome = prompt(`Сколько вы зарабатываете в месяц на ${itemIncome}?`);
+            } while(!regExpNum.test(cashIncome));
+            appData.income[itemIncome] = cashIncome;
+        }
+
         let addExpensens = prompt('Перечислите возможные расходы за рассчитываемый период через запятую:');
         appData.addExpensens = addExpensens.toLowerCase().split(',');
+        appData.addExpensens = appData.addExpensens.map( (item) => {
+            item = item.trim();
+            item = item[0].toUpperCase() + item.slice(1);
+            return item;
+        });
+        appData.addExpensens = appData.addExpensens.join(', ');
+
         appData.deposit = confirm('Есть ли у вас депозит в банке?');
+        appData.getDeposit();
 
         for(let i = 0; i < 2; i++) {
             let amount, 
                 requiredExpenses = [];
-            requiredExpenses[i] = prompt('Введите обязательную статью расходов:');
+            do {
+                requiredExpenses[i] = prompt('Введите обязательную статью расходов:');
+            } while(!regExpText.test(requiredExpenses[i]));
+            
             do {
                 amount = +prompt(`Во сколько обойдется ${requiredExpenses[i]}:`);
             } while(!isNumber(amount));
@@ -78,22 +105,34 @@ let appData = {
         } else {
             appData.statusIncome = 'ZERO';
         }
+    },
+    
+    getDeposit: () => {
+        if(appData.deposit) {
+            do {
+                appData.percentDeposit = prompt('Введите годовой процент:');
+            } while(!regExpNum.test(appData.percentDeposit));
+            do {
+                appData.moneyDeposit = prompt('Какая сумма заложена:');
+            } while(!regExpNum.test(appData.moneyDeposit));
+        }
     }
 };
 
 // <--- Вызов функций --->
 appData.asking();
-appData.getExpensesMonth();
-appData.getBudget();
-appData.getTargetMonth();
-appData.getStatusIncome();
+// appData.getExpensesMonth();
+// appData.getBudget();
+// appData.getTargetMonth();
+// appData.getStatusIncome();
 
 //<--- Выводы в консоль --->
 console.log(`Расходы за месяц составляют: ${appData.expensesMonth}`);
 console.log(appData.period);
 console.log(appData.statusIncome);
+console.log('Возможные расходы: ' + appData.addExpensens);
 
-console.log('Наша программа включает в себя данные:');
-for(let key in appData) {
-    console.log(`Свойство: ${key}, Значение: ${appData[key]}`);
-}
+// console.log('Наша программа включает в себя данные:');
+// for(let key in appData) {
+//     console.log(`Свойство: ${key}, Значение: ${appData[key]}`);
+// }
