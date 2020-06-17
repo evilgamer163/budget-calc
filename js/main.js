@@ -146,19 +146,19 @@ let appData = {
 };
 
 // <--- Вызов функций --->
-// appData.asking();
-// appData.getExpensesMonth();
-// appData.getBudget();
-// appData.getTargetMonth();
-// appData.getStatusIncome();
+appData.asking();
+appData.getExpensesMonth();
+appData.getBudget();
+appData.getTargetMonth();
+appData.getStatusIncome();
 
 //<--- Выводы в консоль --->
-// console.log(`Расходы за месяц составляют: ${appData.expensesMonth}`);
-// console.log(appData.period);
-// console.log(appData.statusIncome);
-// console.log('Возможные расходы: ' + appData.addExpensens);
+console.log(`Расходы за месяц составляют: ${appData.expensesMonth}`);
+console.log(appData.period);
+console.log(appData.statusIncome);
+console.log('Возможные расходы: ' + appData.addExpensens);
 
-// console.log('Наша программа включает в себя данные:');
-// for(let key in appData) {
-//     console.log(`Свойство: ${key}, Значение: ${appData[key]}`);
-// }
+console.log('Наша программа включает в себя данные:');
+for(let key in appData) {
+    console.log(`Свойство: ${key}, Значение: ${appData[key]}`);
+}
