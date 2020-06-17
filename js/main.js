@@ -7,6 +7,13 @@ const calculate = document.getElementById('start'),
     depositCheckmark = document.querySelector('#deposit-check'),
     additionalIncomeItem = document.querySelectorAll('.additional_income-item'),
     inputValue = document.getElementsByClassName('result-total'),
+    budgetMonthValue = inputValue[0],
+    budgetDayValue = inputValue[1],
+    expensesMonthValue = inputValue[2],
+    additionalIncomeValue = inputValue[3],
+    additionalExpensesValue = inputValue[4],
+    incomePeriodValue = inputValue[5],
+    targetMonthValue = inputValue[6],
     salaryAmount = document.querySelector('.salary-amount'),
     incomeTitle = document.querySelector('.income-items').querySelector('.income-title'),
     incomeAmount = document.querySelector('.income-amount'),
@@ -16,20 +23,16 @@ const calculate = document.getElementById('start'),
     targetAmount = document.querySelector('.target-amount'),
     periodSelect = document.querySelector('.period-select');
 
-console.log(calculate);
-console.log(incomeAdd);
-console.log(expensesAdd);
-console.log(depositCheckmark);
-console.log(additionalIncomeItem);
-console.log(inputValue);
-console.log(salaryAmount);
-console.log(incomeTitle);
-console.log(incomeAmount);
-console.log(expensesTitle);
-console.log(expensesAmount);
-console.log(additionalExpensesItem);
-console.log(targetAmount);
-console.log(periodSelect);
+
+console.log(budgetMonthValue);
+console.log(budgetDayValue);
+console.log(expensesMonthValue);
+console.log(additionalIncomeValue);
+console.log(additionalExpensesValue);
+console.log(incomePeriodValue);
+console.log(targetMonthValue);
+
+
 let money;
 
 //<--- Объявления функций --->
@@ -146,19 +149,19 @@ let appData = {
 };
 
 // <--- Вызов функций --->
-appData.asking();
-appData.getExpensesMonth();
-appData.getBudget();
-appData.getTargetMonth();
-appData.getStatusIncome();
+// appData.asking();
+// appData.getExpensesMonth();
+// appData.getBudget();
+// appData.getTargetMonth();
+// appData.getStatusIncome();
 
 //<--- Выводы в консоль --->
-console.log(`Расходы за месяц составляют: ${appData.expensesMonth}`);
-console.log(appData.period);
-console.log(appData.statusIncome);
-console.log('Возможные расходы: ' + appData.addExpensens);
+// console.log(`Расходы за месяц составляют: ${appData.expensesMonth}`);
+// console.log(appData.period);
+// console.log(appData.statusIncome);
+// console.log('Возможные расходы: ' + appData.addExpensens);
 
-console.log('Наша программа включает в себя данные:');
-for(let key in appData) {
-    console.log(`Свойство: ${key}, Значение: ${appData[key]}`);
-}
+// console.log('Наша программа включает в себя данные:');
+// for(let key in appData) {
+//     console.log(`Свойство: ${key}, Значение: ${appData[key]}`);
+// }
