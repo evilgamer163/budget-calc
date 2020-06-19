@@ -25,11 +25,38 @@ let calculate = document.getElementById('start'), //Кнопка "Рассчит
     additionalExpensesItem = document.querySelector('.additional_expenses-item'), //Возможные расходы
     targetAmount = document.querySelector('.target-amount'), //Цель (сумма)
     periodSelect = document.querySelector('.period-select'), // Период расчета
-    periodAmount = document.querySelector('.period-amount'); //значение периода расчета
+    periodAmount = document.querySelector('.period-amount'), //значение периода расчета
+    placeholderSum = document.querySelectorAll('[placeholder="Сумма"]'), //Все поля суммы
+    placeholderName = document.querySelectorAll('[placeholder="Наименование"]'); //Все поля наименований
 
 //<--- Объявления функций --->
 const isNumber = (num) => {
     return !isNaN(parseFloat(num)) && isFinite(num);
+};
+
+const checkInputName = () => {
+    placeholderName = document.querySelectorAll('[placeholder="Наименование"]');
+    placeholderName.forEach( item => {
+        let regExp = /[^A-Za-z0-9]/;
+        item.addEventListener('input', () => {
+            if(!regExp.test(item.value)) {
+                item.value = '';
+                item.placeholder = 'Введите корректное значение!';
+            }
+        });
+    });
+};
+
+const checkInputNumber = () => {
+    placeholderSum = document.querySelectorAll('[placeholder="Сумма"]')
+    placeholderSum.forEach( item => {
+        item.addEventListener('input', () => {
+            if(!isNumber(item.value)) {
+                item.value = '';
+                item.placeholder = 'Введите корректное значение!';
+            }
+        });
+    });
 };
 
 // <--- Объект --->
@@ -73,8 +100,13 @@ let appData = {
 
     addExpensensBlock: () => {
         let cloneExpensesBlock = expensesItems[0].cloneNode(true);
+        cloneExpensesBlock.childNodes.forEach( item => {
+            item.value = '';
+        });
         expensesItems[0].parentNode.insertBefore(cloneExpensesBlock, expensesAdd);
         expensesItems = document.querySelectorAll('.expenses-items');
+        checkInputName();
+        checkInputNumber();
         if(expensesItems.length === 3) {
             expensesAdd.style.display = 'none';
         }
@@ -82,8 +114,13 @@ let appData = {
 
     addIncomeBlock: () => {
         let cloneIncomeBlock = incomeItems[0].cloneNode(true);
+        cloneIncomeBlock.childNodes.forEach( item => {
+            item.value = '';
+        });
         incomeItems[0].parentNode.insertBefore(cloneIncomeBlock, incomeAdd);
         incomeItems = document.querySelectorAll('.income-items');
+        checkInputName();
+        checkInputNumber();
         if(incomeItems.length === 3) {
             incomeAdd.style.display = 'none';
         }
@@ -176,9 +213,13 @@ let appData = {
     }
 };
 
+// <--- Вызов функций --->
+checkInputName();
+checkInputNumber();
+
 // <--- Обработчики событий --->
 calculate.addEventListener('click', () => {
-    if(salaryAmount.value === '') {
+    if(!isNumber(salaryAmount.value)) {
         alert('Поле "Месячный доход" должно быть заполнено!');
     } else {
         appData.start();
@@ -189,8 +230,6 @@ incomeAdd.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', () => {
     periodAmount.textContent = periodSelect.value;
 });
-
-
 
 // <--- Выводы в консоль --->
 // console.log(appData.period);
