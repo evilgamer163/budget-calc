@@ -93,7 +93,7 @@ let appData = {
         additionalIncomeValue.value = appData.addIncome.join(', ');
         targetMonthValue.value = Math.ceil(appData.getTargetMonth());
         incomePeriodValue.value = appData.calcPeriod();
-        periodSelect.addEventListener('change', () => {
+        periodSelect.addEventListener('input', () => {
             incomePeriodValue.value = appData.calcPeriod();
         });
     },
