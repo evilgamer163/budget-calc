@@ -75,6 +75,17 @@ const appData = {
     moneyDeposit: 0,
 
     start: function() {
+        if(!isNumber(salaryAmount.value)) {
+            alert('Поле "Месячный доход" должно быть заполнено!');
+            return;
+        }
+
+        calculate.style.display = 'none';
+        inputFields.forEach( item => {
+            item.setAttribute('disabled', 'disabled');
+        });
+        reset.style.display = 'block';
+
         this.budget = +salaryAmount.value;
         
         this.getExpenses();
@@ -213,10 +224,30 @@ const appData = {
     },
 
     resetAll: function() {
+        calculate.style.display = 'block';
+        reset.style.display = 'none';
+
         inputFields = document.querySelectorAll('input[type="text"]');
         inputFields.forEach( item => {
-            item.removeAttribute('readonly');
+            item.removeAttribute('disabled');
             item.value = '';
+        });
+
+        incomeAdd.style.display = 'inline-block';
+        expensesAdd.style.display = 'inline-block';
+
+        incomeItems.forEach( (item, i) => {
+            while(i > 0) {
+                item.remove();
+                i--;
+            }
+        });
+
+        expensesItems.forEach( (item, i) => {
+            while(i > 0) {
+                item.remove();
+                i--;
+            }
         });
 
         this.budget = 0;
@@ -231,6 +262,10 @@ const appData = {
         this.statusIncome = '';
         this.percentDeposit = 0;
         this.moneyDeposit = 0;
+    }, 
+
+    changePeriodAmount: function() {
+        periodAmount.textContent = periodSelect.value;
     }
 };
 
@@ -238,30 +273,10 @@ const appData = {
 checkInputName();
 checkInputNumber();
 
-
-
 // <--- Обработчики событий --->
-calculate.addEventListener('click', () => {
-    if(!isNumber(salaryAmount.value)) {
-        alert('Поле "Месячный доход" должно быть заполнено!');
-        return;
-    } else {
-        calculate.style.display = 'none';
-        inputFields.forEach( item => {
-            item.setAttribute('readonly', 'readonly');
-        });
-        reset.style.display = 'block';
-        const start = appData.start.bind(appData);
-        start();
-    }
-});
-reset.addEventListener('click', () => {
-    appData.resetAll();
-    calculate.style.display = 'block';
-    reset.style.display = 'none';
-});
+const start = appData.start.bind(appData);
+calculate.addEventListener('click', start);
+reset.addEventListener('click', appData.resetAll);
 expensesAdd.addEventListener('click', appData.addExpensensBlock);
 incomeAdd.addEventListener('click', appData.addIncomeBlock);
-periodSelect.addEventListener('input', () => {
-    periodAmount.textContent = periodSelect.value;
-});
+periodSelect.addEventListener('input', appData.changePeriodAmount);
