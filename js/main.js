@@ -1,35 +1,35 @@
 'use strict';
 
-//<--- Переменные --->
-let calculate = document.getElementById('start'), //Кнопка "Рассчитать"
+//<--- DOM --->
+let calculate = document.getElementById('start'), 
     reset = document.getElementById('cancel'),
     plusButtons = document.getElementsByTagName('button'),
-    incomeAdd = document.getElementsByTagName('button')[0], //Кнопка + "Доп. доход"
-    expensesAdd = document.getElementsByTagName('button')[1], //Кнопка + "Обязательные расходы"
-    depositCheckmark = document.querySelector('#deposit-check'), //Чек-бокс Депозит
+    incomeAdd = document.getElementsByTagName('button')[0], 
+    expensesAdd = document.getElementsByTagName('button')[1], 
+    depositCheckmark = document.querySelector('#deposit-check'), 
     additionalIncomeItem = document.querySelectorAll('.additional_income-item'),
-    budgetMonthValue = document.getElementsByClassName('budget_month-value')[0], //Доход за месяц
-    budgetDayValue = document.getElementsByClassName('budget_day-value')[0], //Дневной бюджет
-    expensesMonthValue = document.getElementsByClassName('expenses_month-value')[0], //Расход за месяц
-    additionalIncomeValue = document.getElementsByClassName('additional_income-value')[0], //Возможные доходы
-    additionalExpensesValue = document.getElementsByClassName('additional_expenses-value')[0], //Возможные расходы
-    incomePeriodValue = document.getElementsByClassName('income_period-value')[0], //Накопления за период
-    targetMonthValue = document.getElementsByClassName('target_month-value')[0], //Срок достижения цели
-    salaryAmount = document.querySelector('.salary-amount'), //Сумма месячного дохода
-    incomeItems = document.querySelectorAll('.income-items'), //Блок доп. доход
-    incomeTitle = document.querySelector('.income-items').querySelector('.income-title'), //Имя доп. дохода
-    incomeAmount = document.querySelector('.income-amount'), //Сумма доп. дохода
-    expensesTitle = document.querySelector('.expenses-items').querySelector('.expenses-title'), //Имя обязательного расхода
-    expensesItems = document.querySelectorAll('.expenses-items'), //Сумма обязательного расхода
-    additionalExpensesItem = document.querySelector('.additional_expenses-item'), //Возможные расходы
-    targetAmount = document.querySelector('.target-amount'), //Цель (сумма)
-    periodSelect = document.querySelector('.period-select'), // Период расчета
-    periodAmount = document.querySelector('.period-amount'), //значение периода расчета
-    placeholderSum = document.querySelectorAll('[placeholder="Сумма"]'), //Все поля суммы
-    placeholderName = document.querySelectorAll('[placeholder="Наименование"]'), //Все поля наименований
+    budgetMonthValue = document.getElementsByClassName('budget_month-value')[0],
+    budgetDayValue = document.getElementsByClassName('budget_day-value')[0],
+    expensesMonthValue = document.getElementsByClassName('expenses_month-value')[0],
+    additionalIncomeValue = document.getElementsByClassName('additional_income-value')[0],
+    additionalExpensesValue = document.getElementsByClassName('additional_expenses-value')[0],
+    incomePeriodValue = document.getElementsByClassName('income_period-value')[0],
+    targetMonthValue = document.getElementsByClassName('target_month-value')[0],
+    salaryAmount = document.querySelector('.salary-amount'),
+    incomeItems = document.querySelectorAll('.income-items'),
+    incomeTitle = document.querySelector('.income-items').querySelector('.income-title'),
+    incomeAmount = document.querySelector('.income-amount'),
+    expensesTitle = document.querySelector('.expenses-items').querySelector('.expenses-title'),
+    expensesItems = document.querySelectorAll('.expenses-items'),
+    additionalExpensesItem = document.querySelector('.additional_expenses-item'),
+    targetAmount = document.querySelector('.target-amount'),
+    periodSelect = document.querySelector('.period-select'),
+    periodAmount = document.querySelector('.period-amount'),
+    placeholderSum = document.querySelectorAll('[placeholder="Сумма"]'),
+    placeholderName = document.querySelectorAll('[placeholder="Наименование"]'),
     inputFields = document.querySelectorAll('input[type="text"]');
 
-//<--- Объявления функций --->
+//<--- Functions --->
 const isNumber = (num) => {
     return !isNaN(parseFloat(num)) && isFinite(num);
 };
@@ -59,7 +59,7 @@ const checkInputNumber = () => {
     });
 };
 
-// <--- Объект --->
+// <--- Class --->
 const AppData = function(){
     this.budget = 0;
     this.income = {};
@@ -234,36 +234,36 @@ AppData.prototype.resetAll = function() {
         this.moneyDeposit = 0;
 };
 
+AppData.prototype.eventsListeners = function() {
+    calculate.addEventListener('click', () => {
+        if(!isNumber(salaryAmount.value)) {
+            alert('Поле "Месячный доход" должно быть заполнено!');
+            return;
+        } else {
+            calculate.style.display = 'none';
+            inputFields.forEach( item => {
+                item.setAttribute('readonly', 'readonly');
+            });
+            reset.style.display = 'block';
+            const start = this.start.bind(this);
+            start();
+        }
+    });
+    reset.addEventListener('click', () => {
+        this.resetAll();
+        calculate.style.display = 'block';
+        reset.style.display = 'none';
+    });
+    expensesAdd.addEventListener('click', this.addExpensensBlock);
+    incomeAdd.addEventListener('click', this.addIncomeBlock);
+    periodSelect.addEventListener('input', () => {
+        periodAmount.textContent = periodSelect.value;
+    });
+};
+
 const appData = new AppData();
 
-// <--- Вызов функций --->
+// <--- Call functions --->
 checkInputName();
 checkInputNumber();
-
-
-
-// <--- Обработчики событий --->
-calculate.addEventListener('click', () => {
-    if(!isNumber(salaryAmount.value)) {
-        alert('Поле "Месячный доход" должно быть заполнено!');
-        return;
-    } else {
-        calculate.style.display = 'none';
-        inputFields.forEach( item => {
-            item.setAttribute('readonly', 'readonly');
-        });
-        reset.style.display = 'block';
-        const start = appData.start.bind(appData);
-        start();
-    }
-});
-reset.addEventListener('click', () => {
-    appData.resetAll();
-    calculate.style.display = 'block';
-    reset.style.display = 'none';
-});
-expensesAdd.addEventListener('click', appData.addExpensensBlock);
-incomeAdd.addEventListener('click', appData.addIncomeBlock);
-periodSelect.addEventListener('input', () => {
-    periodAmount.textContent = periodSelect.value;
-});
+appData.eventsListeners();
