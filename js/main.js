@@ -213,6 +213,7 @@ const appData = {
     },
 
     resetAll: function() {
+        inputFields = document.querySelectorAll('input[type="text"]');
         inputFields.forEach( item => {
             item.removeAttribute('readonly');
             item.value = '';
