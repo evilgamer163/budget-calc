@@ -27,7 +27,8 @@ let calculate = document.getElementById('start'), //Кнопка "Рассчит
     periodAmount = document.querySelector('.period-amount'), //значение периода расчета
     placeholderSum = document.querySelectorAll('[placeholder="Сумма"]'), //Все поля суммы
     placeholderName = document.querySelectorAll('[placeholder="Наименование"]'), //Все поля наименований
-    inputFields = document.querySelectorAll('input[type="text"]');
+    inputFields = document.querySelectorAll('input[type="text"]'),
+    btnPlus = document.querySelectorAll('.btn_plus');
 
 //<--- Объявления функций --->
 const isNumber = (num) => {
@@ -85,8 +86,11 @@ const appData = {
         inputFields.forEach( item => {
             item.setAttribute('disabled', 'disabled');
         });
-        incomeAdd.setAttribute('disabled', 'disabled');
-        expensesAdd.setAttribute('disabled', 'disabled');
+
+        btnPlus.forEach( item => {
+            item.setAttribute('disabled', 'disabled');
+        });
+        
         reset.style.display = 'block';
 
         this.budget = +salaryAmount.value;
@@ -236,10 +240,12 @@ const appData = {
             item.value = '';
         });
 
-        incomeAdd.style.display = 'inline-block';
-        expensesAdd.style.display = 'inline-block';
-        incomeAdd.removeAttribute('disabled');
-        expensesAdd.removeAttribute('disabled');
+        btnPlus.forEach( item => {
+            if(item.style.display === 'none') {
+                item.style.display = 'inline-block';
+            }
+            item.removeAttribute('disabled');
+        });
 
         incomeItems.forEach( (item, i) => {
             while(i > 0) {
