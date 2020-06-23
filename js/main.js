@@ -81,9 +81,12 @@ const appData = {
         }
 
         calculate.style.display = 'none';
+        inputFields = document.querySelectorAll('input[type="text"]');
         inputFields.forEach( item => {
             item.setAttribute('disabled', 'disabled');
         });
+        incomeAdd.setAttribute('disabled', 'disabled');
+        expensesAdd.setAttribute('disabled', 'disabled');
         reset.style.display = 'block';
 
         this.budget = +salaryAmount.value;
@@ -235,6 +238,8 @@ const appData = {
 
         incomeAdd.style.display = 'inline-block';
         expensesAdd.style.display = 'inline-block';
+        incomeAdd.removeAttribute('disabled');
+        expensesAdd.removeAttribute('disabled');
 
         incomeItems.forEach( (item, i) => {
             while(i > 0) {
