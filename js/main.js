@@ -7,8 +7,6 @@ let calculate = document.getElementById('start'), //Кнопка "Рассчит
     expensesAdd = document.getElementsByTagName('button')[1], //Кнопка + "Обязательные расходы"
     depositCheckmark = document.querySelector('#deposit-check'), //Чек-бокс Депозит
     additionalIncomeItem = document.querySelectorAll('.additional_income-item'),
-    // additionalIncomeItemName = document.querySelectorAll('.additional_income-item')[0],
-    // additionalIncomeItemSum = document.querySelectorAll('.additional_income-item')[1],
     budgetMonthValue = document.getElementsByClassName('budget_month-value')[0], //Доход за месяц
     budgetDayValue = document.getElementsByClassName('budget_day-value')[0], //Дневной бюджет
     expensesMonthValue = document.getElementsByClassName('expenses_month-value')[0], //Расход за месяц
@@ -60,7 +58,7 @@ const checkInputNumber = () => {
 };
 
 // <--- Объект --->
-let appData = {
+const appData = {
     budget: 0,
     income: {},
     addIncome: [],
@@ -75,6 +73,10 @@ let appData = {
     moneyDeposit: 0,
 
     start: () => {
+        if(!isNumber(salaryAmount.value)) {
+            alert('Поле "Месячный доход" должно быть заполнено!');
+            return;
+        }
         appData.budget = +salaryAmount.value;
         
         appData.getExpenses();
@@ -218,20 +220,9 @@ checkInputName();
 checkInputNumber();
 
 // <--- Обработчики событий --->
-calculate.addEventListener('click', () => {
-    if(!isNumber(salaryAmount.value)) {
-        alert('Поле "Месячный доход" должно быть заполнено!');
-    } else {
-        appData.start();
-    }
-});
+calculate.addEventListener('click', appData.start);
 expensesAdd.addEventListener('click', appData.addExpensensBlock);
 incomeAdd.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', () => {
     periodAmount.textContent = periodSelect.value;
 });
-
-// <--- Выводы в консоль --->
-// console.log(appData.period);
-// console.log(appData.statusIncome);
-// console.log('Возможные расходы: ' + appData.addExpensens);
