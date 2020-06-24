@@ -276,6 +276,7 @@ AppData.prototype.resetAll = function() {
     this.deposit = false;
     this.budgetDay = 0;
     this.budgetMonth = 0;
+    this.incomeMonth = 0;
     this.expensesMonth = 0;
     this.statusIncome = '';
     this.percentDeposit = 0;
