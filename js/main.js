@@ -98,7 +98,9 @@ class AppData {
         reset.style.display = 'block';
     
         this.budget = +salaryAmount.value;
-        
+
+        this.getAddExpInc();
+
         this.getExpInc();
         this.getIncomeMonth();
         this.getExpensesMonth();
@@ -171,7 +173,18 @@ class AppData {
     }
 
     getAddExpInc() {
+        let addIncome = [];
+        additionalIncomeItem.forEach( (item, i) => {
+            addIncome.push(item.value);
+        });
+        let addExpensens = additionalExpensesItem.value.split(',');
 
+        const count = item => {
+            item = item.trim();
+            if(item !== '') {
+                
+            }
+        };
     }
 
     getIncomeMonth() {
