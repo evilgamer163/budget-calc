@@ -49,7 +49,7 @@ const checkInputName = () => {
 };
 
 const checkInputNumber = () => {
-    placeholderSum = document.querySelectorAll('[placeholder="Сумма"]')
+    placeholderSum = document.querySelectorAll('[placeholder="Сумма"]');
     placeholderSum.forEach( item => {
         item.addEventListener('input', () => {
             if(!isNumber(item.value)) {
