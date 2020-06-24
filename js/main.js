@@ -70,6 +70,7 @@ const AppData = function(){
     this.deposit = false;
     this.budgetDay = 0;
     this.budgetMonth = 0;
+    this.incomeMonth = 0;
     this.expensesMonth = 0;
     this.statusIncome = '';
     this.percentDeposit = 0;
@@ -96,6 +97,8 @@ AppData.prototype.start = function() {
 
     this.budget = +salaryAmount.value;
     
+    this.getIncome();
+    this.getIncomeMonth();
     this.getExpenses();
     this.getExpensesMonth();
     this.getBudget();
@@ -156,16 +159,13 @@ AppData.prototype.getExpenses = function() {
 };
 
 AppData.prototype.getIncome = function() {
-    if(confirm('Есть ли у вас доп. источники дохода?')) {
-        let itemIncome, cashIncome;
-        do {
-            itemIncome = prompt('Введите доп. источник дохода:');
-        } while(isNumber(itemIncome));
-        do {
-            cashIncome = prompt(`Сколько вы зарабатываете в месяц на ${itemIncome}?`);
-        } while(!isNumber(cashIncome));
-        this.income[itemIncome] = cashIncome;
-    }
+    incomeItems.forEach( item => {
+        let itemIncome = item.querySelector('.income-title').value;
+        let cashIncome = item.querySelector('.income-amount').value;
+        if(itemIncome !== '' && cashIncome !== '') {
+            this.income[itemIncome] = cashIncome;
+        }
+    });
 };
 
 AppData.prototype.getAddExpenses = function() {
@@ -193,8 +193,14 @@ AppData.prototype.getExpensesMonth = function() {
     }  
 };
 
+AppData.prototype.getIncomeMonth = function() {
+    for(let key in this.income) {
+        this.incomeMonth += parseFloat(this.income[key]);
+    }
+};
+
 AppData.prototype.getBudget = function() {
-    this.budgetMonth = this.budget - this.expensesMonth;
+    this.budgetMonth = (this.budget + this.incomeMonth) - this.expensesMonth;
     this.budgetDay = this.budgetMonth / 30;
 };
 
