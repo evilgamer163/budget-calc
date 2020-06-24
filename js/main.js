@@ -27,7 +27,8 @@ let calculate = document.getElementById('start'),
     periodAmount = document.querySelector('.period-amount'),
     placeholderSum = document.querySelectorAll('[placeholder="Сумма"]'),
     placeholderName = document.querySelectorAll('[placeholder="Наименование"]'),
-    inputFields = document.querySelectorAll('input[type="text"]');
+    inputFields = document.querySelectorAll('input[type="text"]'),
+    btnPlus = document.querySelectorAll('.btn_plus');
 
 //<--- Functions --->
 const isNumber = (num) => {
@@ -76,6 +77,23 @@ const AppData = function(){
 };
 
 AppData.prototype.start = function() {
+    if(!isNumber(salaryAmount.value)) {
+        alert('Поле "Месячный доход" должно быть заполнено!');
+        return;
+    }
+
+    calculate.style.display = 'none';
+    inputFields = document.querySelectorAll('input[type="text"]');
+    inputFields.forEach( item => {
+        item.setAttribute('disabled', 'disabled');
+    });
+
+    btnPlus.forEach( item => {
+        item.setAttribute('disabled', 'disabled');
+    });
+    
+    reset.style.display = 'block';
+
     this.budget = +salaryAmount.value;
     
     this.getExpenses();
@@ -214,51 +232,62 @@ AppData.prototype.calcPeriod = function() {
 };
 
 AppData.prototype.resetAll = function() {
-    inputFields = document.querySelectorAll('input[type="text"]');
-        inputFields.forEach( item => {
-            item.removeAttribute('readonly');
-            item.value = '';
-        });
+    calculate.style.display = 'block';
+    reset.style.display = 'none';
 
-        this.budget = 0;
-        this.income = {};
-        this.addIncome = [];
-        this.expenses = {};
-        this.addExpensens = [];
-        this.deposit = false;
-        this.budgetDay = 0;
-        this.budgetMonth = 0;
-        this.expensesMonth = 0;
-        this.statusIncome = '';
-        this.percentDeposit = 0;
-        this.moneyDeposit = 0;
+    inputFields = document.querySelectorAll('input[type="text"]');
+    inputFields.forEach( item => {
+        item.removeAttribute('disabled');
+        item.value = '';
+    });
+
+    btnPlus.forEach( item => {
+        if(item.style.display === 'none') {
+            item.style.display = 'inline-block';
+        }
+        item.removeAttribute('disabled');
+    });
+
+    incomeItems.forEach( (item, i) => {
+        while(i > 0) {
+            item.remove();
+            i--;
+        }
+    });
+
+    expensesItems.forEach( (item, i) => {
+        while(i > 0) {
+            item.remove();
+            i--;
+        }
+    });
+
+    this.budget = 0;
+    this.income = {};
+    this.addIncome = [];
+    this.expenses = {};
+    this.addExpensens = [];
+    this.deposit = false;
+    this.budgetDay = 0;
+    this.budgetMonth = 0;
+    this.expensesMonth = 0;
+    this.statusIncome = '';
+    this.percentDeposit = 0;
+    this.moneyDeposit = 0;
+};
+
+AppData.prototype.changePeriodAmount = function() {
+    periodAmount.textContent = periodSelect.value;
 };
 
 AppData.prototype.eventsListeners = function() {
-    calculate.addEventListener('click', () => {
-        if(!isNumber(salaryAmount.value)) {
-            alert('Поле "Месячный доход" должно быть заполнено!');
-            return;
-        } else {
-            calculate.style.display = 'none';
-            inputFields.forEach( item => {
-                item.setAttribute('readonly', 'readonly');
-            });
-            reset.style.display = 'block';
-            const start = this.start.bind(this);
-            start();
-        }
-    });
-    reset.addEventListener('click', () => {
-        this.resetAll();
-        calculate.style.display = 'block';
-        reset.style.display = 'none';
-    });
+    const start = this.start.bind(this);
+    const resetAll = this.resetAll.bind(this);
+    calculate.addEventListener('click', start);
+    reset.addEventListener('click', resetAll);
     expensesAdd.addEventListener('click', this.addExpensensBlock);
     incomeAdd.addEventListener('click', this.addIncomeBlock);
-    periodSelect.addEventListener('input', () => {
-        periodAmount.textContent = periodSelect.value;
-    });
+    periodSelect.addEventListener('input', this.changePeriodAmount);
 };
 
 const appData = new AppData();
