@@ -274,6 +274,7 @@ class AppData {
         this.budgetDay = 0;
         this.budgetMonth = 0;
         this.expensesMonth = 0;
+        this.incomeMonth = 0;
         this.statusIncome = '';
         this.percentDeposit = 0;
         this.moneyDeposit = 0;
