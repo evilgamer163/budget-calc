@@ -99,8 +99,6 @@ class AppData {
     
         this.budget = +salaryAmount.value;
 
-        this.getAddExpInc();
-
         this.getExpInc();
         this.getIncomeMonth();
         this.getExpensesMonth();
@@ -136,7 +134,6 @@ class AppData {
         if(blockArr.length === 3) {
             btn.style.display = 'none';
         }
-        console.log(blockArr);
     }
 
     getExpInc() {
@@ -149,13 +146,16 @@ class AppData {
             }
         };
 
+        incomeItems = document.querySelectorAll('.income-items');
+        expensesItems = document.querySelectorAll('.expenses-items');
+
         incomeItems.forEach(count);
         expensesItems.forEach(count);
     }
     
     getAddExpenses() {
-        let addExpensens = additionalExpensesItem.value.split(',');
-        addExpensens.forEach( item => {
+        let newAddExpensens = additionalExpensesItem.value.split(',');
+        newAddExpensens.forEach( item => {
             item = item.trim();
             if(item !== '') {
                 this.addExpensens.push(item);
@@ -170,21 +170,6 @@ class AppData {
                 this.addIncome.push(itemValue);
             }
         });
-    }
-
-    getAddExpInc() {
-        let addIncome = [];
-        additionalIncomeItem.forEach( (item, i) => {
-            addIncome.push(item.value);
-        });
-        let addExpensens = additionalExpensesItem.value.split(',');
-
-        const count = item => {
-            item = item.trim();
-            if(item !== '') {
-                
-            }
-        };
     }
 
     getIncomeMonth() {
