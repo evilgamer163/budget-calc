@@ -32,7 +32,8 @@ let placeholderSum = document.querySelectorAll('[placeholder="Сумма"]'),
     placeholderName = document.querySelectorAll('[placeholder="Наименование"]'),
     inputFields = document.querySelectorAll('input[type="text"]'),
     incomeItems = document.querySelectorAll('.income-items'),
-    expensesItems = document.querySelectorAll('.expenses-items');
+    expensesItems = document.querySelectorAll('.expenses-items'),
+    dataStorage = [];
 
 //<--- Functions --->
 const isNumber = (num) => {
@@ -126,6 +127,17 @@ class AppData {
         periodSelect.addEventListener('input', () => {
             incomePeriodValue.value = this.calcPeriod();
         });
+        dataStorage = [
+            budgetMonthValue.value,
+            budgetDayValue.value,
+            expensesMonthValue.value,
+            additionalExpensesValue.value,
+            additionalIncomeValue.value,
+            targetMonthValue.value,
+            incomePeriodValue.value
+        ];
+        
+        localStorage.setItem('data', JSON.stringify(dataStorage));
     }
 
     addBlocks(blockArr, btn) {
@@ -202,19 +214,19 @@ class AppData {
         return targetAmount.value / this.budgetMonth;
     }
     
-    getStatusIncome() {
-        if(this.budgetDay > 1200) {
-            this.statusIncome = 'У вас высокий уровень дохода!';
-        } else if(this.budgetDay >= 600 && this.budgetDay <= 1200) {
-            this.statusIncome = 'У вас средний уровень дохода';
-        } else if(this.budgetDay < 600 && this.budgetDay > 0) {
-            this.statusIncome = 'К сожалению у вас уровень дохода ниже среднего';
-        } else if( this.budgetDay < 0) {
-            this.statusIncome = 'Что то пошло не так';
-        } else {
-            this.statusIncome = 'ZERO';
-        }
-    }
+    // getStatusIncome() {
+    //     if(this.budgetDay > 1200) {
+    //         this.statusIncome = 'У вас высокий уровень дохода!';
+    //     } else if(this.budgetDay >= 600 && this.budgetDay <= 1200) {
+    //         this.statusIncome = 'У вас средний уровень дохода';
+    //     } else if(this.budgetDay < 600 && this.budgetDay > 0) {
+    //         this.statusIncome = 'К сожалению у вас уровень дохода ниже среднего';
+    //     } else if( this.budgetDay < 0) {
+    //         this.statusIncome = 'Что то пошло не так';
+    //     } else {
+    //         this.statusIncome = 'ZERO';
+    //     }
+    // }
     
     calcPeriod() {
         return this.budgetMonth * periodSelect.value;
@@ -223,6 +235,8 @@ class AppData {
     resetAll() {
         calculate.style.display = 'block';
         reset.style.display = 'none';
+
+        localStorage.removeItem('data');
     
         inputFields = document.querySelectorAll('input[type="text"]');
         inputFields.forEach( item => {
@@ -292,7 +306,7 @@ class AppData {
                     calculate.setAttribute('disable', 'disable');
                 } else {
                     let num = parseInt(depositPercent.value);
-                    if(num > 0 && num < 100) {
+                    if(num > 0 && num <= 100) {
                         this.percentDeposit = depositPercent.value;
                     } else {
                         depositPercent.value = 0;
@@ -321,6 +335,26 @@ class AppData {
             depositBank.removeEventListener('change', this.changePercent);
         }   
     }
+
+    isStorage() {
+        if(localStorage.getItem('data')) {
+            let data = JSON.parse(localStorage.getItem('data'));
+        
+            let inputValues = [
+                budgetMonthValue,
+                budgetDayValue,
+                expensesMonthValue,
+                additionalExpensesValue,
+                additionalIncomeValue,
+                targetMonthValue,
+                incomePeriodValue
+            ];
+        
+            inputValues.forEach( (item, i) => {
+                item.value = data[i];
+            });
+        }
+    }
     
     eventsListeners() {
         const start = this.start.bind(this);
@@ -343,4 +377,5 @@ const appData = new AppData();
 // <--- Call functions --->
 checkInputName();
 checkInputNumber();
+appData.isStorage();
 appData.eventsListeners();
